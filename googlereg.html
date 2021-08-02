@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>registration page</title>
+    <style>
+        .register {
+            width: 20%;
+            margin: auto;
+            margin-top: 100px;
+        }
+
+        div input {
+            width: 90%;
+            height: 25px;
+        }
+
+        div legend {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+        }
+
+        #btn {
+            margin-top: 20px;
+            height: 25px;
+            margin-left: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='register'>
+        <h1>Register</h1>
+        <form id="formreg">
+            <legend>Name :</legend>
+            <input type="text" id="in1">
+            <legend>Email :</legend>
+            <input type="text" id="in2">
+            <legend>Password :</legend>
+            <input type="password" id="in3">
+            <legend>Username :</legend>
+            <input type="text" id="in4">
+            <legend>Mobile :</legend>
+            <input type="text" id="in5">
+            <legend>Description :</legend>
+            <input type="text" id="in6">
+        </form>
+        <button onclick="register()" id="btn">Submmit</button>
+    </div>
+</body>
+
+</html>
+<script>
+
+    function register() {
+        let form = document.getElementById("formreg");
+        let formdata = {
+            name: form.in1.value,
+            email: form.in2.value,
+            password: form.in3.value,
+            username: form.in4.value,
+            mobile: form.in5.value,
+            description: form.in6.value
+        }
+        formdata = JSON.stringify(formdata);
+        console.log(formdata);
+        async function reg() {
+
+            try {
+                let res = await fetch("https://masai-api-mocker.herokuapp.com/auth/register", {
+                    method: "POST",
+                    body: formdata,
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                })
+                let data = await res.json();
+                console.log(data);
+                if (data.error == false) {
+                    window.location.href = 'googlelogin.html'
+                } else {
+                    alert("username already exist")
+                }
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        reg();
+    }
+
+</script>

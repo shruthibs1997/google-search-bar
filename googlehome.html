@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>google home page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        body {
+            background-image: url("https://www.setaswall.com/wp-content/uploads/2017/03/Green-Fields-Nature-Landscape-Wallpaper-1920x1080.jpg");
+            background-size: cover;
+        }
+
+        #page {
+            /* border: 1px solid black; */
+            width: 35%;
+            margin: auto;
+            margin-top: 40px;
+            position: relative;
+            border-radius: 15px;
+            background-color: white;
+        }
+
+        #imgdiv {
+            /* border: 1px solid black; */
+            clear: both;
+            text-align: center;
+            margin-top: 100px;
+
+        }
+
+        #search {
+            width: 100%;
+            height: 40px;
+            border-radius: 25px;
+            border: none;
+            font-size: 1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            padding-left: 50px;
+            background: transparent;
+            outline: none;
+        }
+
+        #btn {
+            position: absolute;
+            top: 10px;
+            left: 2%;
+            font-size: 18px;
+            background: transparent;
+            color: gray;
+            border: none;
+        }
+
+        #btn1 {
+            position: absolute;
+            right: 5%;
+            top: 7px;
+            background: transparent;
+            border: none;
+            color: blue;
+        }
+
+        #display {
+            /* border: 1px solid red; */
+            border-radius: 0px 0px 15px 15px;
+            width: 100%;
+            max-height: 240px;
+            overflow: hidden;
+        }
+
+        #display>div {
+            padding: 2%;
+            font-size: 1rem;
+            font-family: Arial, Helvetica, sans-serif;
+            padding-left: 50px;
+            background-color: transparent;
+        }
+
+        #display>div:hover {
+            background-color: rgb(231, 228, 228);
+        }
+
+        #navbar {
+            height: 30px;
+        }
+
+        #navbar>div {
+            /* border: 1px solid black; */
+            float: right;
+            font-size: 1rem;
+            padding: 0.5%;
+            margin-right: 10px;
+            font-weight: bold;
+            background: transparent;
+            color: white;
+        }
+
+        #logo {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="navbar">
+        <div><img id="logo"
+                src='https://lh3.googleusercontent.com/ogw/ADea4I6YVZWg1LaIVIN8snUwMRbYW--ra7C9MeDQQBzU=s32-c-mo' />
+        </div>
+        <div><i class="material-icons">apps</i></div>
+        <div>Images</div>
+        <div>Gmail</div>
+    </div>
+    <div id="imgdiv">
+        <img id="img" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" />
+    </div>
+    <div id="page">
+
+        <input type="search" id="search" oninput="alloptions()" placeholder="Search Google or type a URL">
+        <button type="submit" id="btn">
+            <i class="fa fa-search"></i>
+        </button>
+        <button style='font-size:21px' id="btn1"> <i class='fa fa-microphone'></i></button>
+        <div id="display"></div>
+    </div>
+</body>
+
+</html>
+<script>
+
+
+    //http://api.serpstack.com/search?access_key = 15e31542fa858492668dab709b25de47&query = mcdonalds
+    async function alloptions() {
+        let input = document.getElementById("search").value;
+        console.log(input);
+        let res = await fetch(`http://api.serpstack.com/search?access_key=15e31542fa858492668dab709b25de47&query=${input}&num=5`);
+        let data = await res.json();
+        console.log(data.organic_results);
+        arr(data.organic_results)
+    }
+    //alloptions();
+
+    function arr(d) {
+        let dis_div = document.getElementById("display");
+        dis_div.innerHTML = null;
+        d.forEach((el) => {
+            display(el);
+        });
+    }
+
+    function display({ title, url }) {
+        let dis_div = document.getElementById('display');
+        let div = document.createElement('div');
+        div.innerHTML = title;
+        div.addEventListener("click", function () {
+            window.location.href = url;
+        })
+        dis_div.append(div);
+    }
+
+</script>

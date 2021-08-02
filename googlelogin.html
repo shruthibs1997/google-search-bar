@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>login page</title>
+    <style>
+        .login {
+            width: 20%;
+            margin: auto;
+            margin-top: 150px;
+        }
+
+        div input {
+            width: 90%;
+            height: 25px;
+        }
+
+        div legend {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1rem;
+        }
+
+        #btn {
+            margin-top: 20px;
+            height: 25px;
+            margin-left: 40%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='login'>
+        <h1>Login</h1>
+        <form id="formlog">
+            <legend>Username :</legend>
+            <input type="text" id="inp1">
+            <legend>Password :</legend>
+            <input type="password" id="inp2">
+        </form>
+        <button onclick="login()" id="btn">Submmit</button>
+    </div>
+</body>
+
+</html>
+<script>
+    function login() {
+        let form = document.getElementById("formlog");
+        let formdata = {
+            username: form.inp1.value,
+            password: form.inp2.value
+        }
+        formdata = JSON.stringify(formdata);
+
+        async function log() {
+            try {
+                let res = await fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+                    method: "POST",
+                    body: formdata,
+                    headers: {
+                        'Content-Type': "application/json"
+                    }
+                })
+
+                let data = await res.json();
+                console.log(data);
+                if (data.error == false) {
+                    window.location.href = 'googlepage.html'
+                }
+
+            }
+            catch (err) {
+                console.log(err);
+            }
+        }
+        log();
+    }
+
+
+</script>
